@@ -28,6 +28,13 @@ function showResults(payload) {
   results.hidden = false;
   sourceValue.textContent = payload?.source?.nameOrTitle ?? '—';
   scoreValue.textContent = Math.round(payload?.score ?? 0);
+  results.hidden = false;
+  snippetsBox.innerHTML = `
+  <div><strong>Bias direction:</strong> ${payload.biasDirection || 'N/A'}</div>
+  <div><strong>Fake news level:</strong> ${payload.fakeNewsPercentage || 'N/A'}</div>
+  <div><strong>Explanation:</strong> ${payload.explanation || 'No explanation provided.'}</div>
+`;
+
 
   // Tags
   tagContainer.innerHTML = '';
@@ -64,6 +71,7 @@ async function analyzeTextFlow(text, sourceLabel) {
   try {
     const res = await BiasAPI.analyzeText(text);
     setProgress(100, 'Done');
+    console.log('API response:', res);
     const payload = normalizePayload(res, { type: 'text', nameOrTitle: sourceLabel || 'Copied Text' });
     showResults(payload);
 
@@ -84,13 +92,30 @@ async function analyzeTextFlow(text, sourceLabel) {
   }
 }
 
+// function normalizePayload(apiResponse, source) {
+//   // Expecting the backend to return a compatible object; attach source for UI
+//   const p = apiResponse || {};
+//   p.source = source || p.source || { type: 'unknown', nameOrTitle: 'Unknown' };
+//   p.categories = p.categories || [];
+//   p.highlights = p.highlights || [];
+//   p.score = typeof p.score === 'number' ? p.score : 0;
+//   return p;
+// }
+
 function normalizePayload(apiResponse, source) {
-  // Expecting the backend to return a compatible object; attach source for UI
   const p = apiResponse || {};
   p.source = source || p.source || { type: 'unknown', nameOrTitle: 'Unknown' };
   p.categories = p.categories || [];
   p.highlights = p.highlights || [];
-  p.score = typeof p.score === 'number' ? p.score : 0;
+
+  // 🧩 Fix: Preserve numeric score and coerce if needed
+  if (p.score === undefined || p.score === null) {
+    p.score = 0;
+  } else if (typeof p.score !== 'number') {
+    const num = Number(p.score);
+    p.score = isNaN(num) ? 0 : num;
+  }
+
   return p;
 }
 
