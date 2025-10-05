@@ -1,0 +1,29 @@
+{
+  "title": "BiasAnalysisResponse",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "nameOrTitle": { "type": "string" }
+      }
+    },
+    "score": { "type": "number" },
+    "categories": { "type": "array", "items": { "type": "string" } },
+    "highlights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string" },
+          "pageOffsetStart": { "type": "number" },
+          "pageOffsetEnd": { "type": "number" },
+          "explanation": { "type": "string" }
+        },
+        "required": ["text"]
+      }
+    }
+  },
+  "required": ["score"]
+}

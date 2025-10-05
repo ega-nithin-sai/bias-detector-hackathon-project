@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Bias Detector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <!-- Header (text-only, no logo) -->
+  <header class="bd-header">
+    <div class="bd-title">Bias Detector</div>
+    <button id="bd-close" class="bd-close" aria-label="Close">×</button>
+  </header>
+
+  <main class="bd-main">
+    <!-- Analyze current page -->
+    <section class="bd-card">
+      <button id="btn-analyze-page" class="bd-primary-btn">Analyze current webpage</button>
+
+      <div class="bd-progress">
+        <div class="bd-progress-bar" id="progress-bar" style="width:0%"></div>
+      </div>
+      <div id="progress-label" class="bd-progress-label">Bias detection — 0%</div>
+    </section>
+
+    <!-- More options (Adobe-style list) -->
+    <section class="bd-card">
+      <details open>
+        <summary class="bd-summary">More options</summary>
+
+        <div class="bd-list">
+          <label class="bd-list-item">
+            <input id="file-picker" type="file" accept=".pdf,.doc,.docx,.txt" hidden />
+            <span class="bd-list-label">Upload PDF / DOCX / TXT</span>
+            <button id="btn-upload" class="bd-ghost-btn" type="button">Choose file</button>
+          </label>
+
+          <div class="bd-list-item">
+            <span class="bd-list-label">Paste URL</span>
+            <div class="bd-inline">
+              <input id="url-input" type="url" placeholder="https://example.com/article" />
+              <button id="btn-analyze-url" class="bd-ghost-btn">Analyze</button>
+            </div>
+          </div>
+
+          <div class="bd-list-item">
+            <span class="bd-list-label">Paste Text</span>
+            <textarea id="text-input" rows="4" placeholder="Paste any text to analyze..."></textarea>
+            <button id="btn-analyze-text" class="bd-ghost-btn">Analyze</button>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="bd-card" hidden>
+      <div class="bd-source">
+        <div class="bd-source-title">Source</div>
+        <div id="source-value" class="bd-source-value">—</div>
+      </div>
+
+      <div class="bd-score">
+        <div id="score-value" class="bd-score-number">0</div>
+        <div id="score-caption" class="bd-score-caption">Fake News Level (0–100)</div>
+        <div id="bias-box" class="bd-bias-box">Bias: —</div>
+      </div>
+
+      <div class="bd-tags" id="tag-container"></div>
+
+      <div class="bd-toggle">
+        <label>
+          <input id="toggle-highlights" type="checkbox" />
+          View highlights in page
+        </label>
+      </div>
+
+      <div class="bd-snippets">
+        <div class="bd-snippets-title">Biased snippets</div>
+        <div id="snippets" class="bd-snippets-box">No biased snippets found.</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../lib/api.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

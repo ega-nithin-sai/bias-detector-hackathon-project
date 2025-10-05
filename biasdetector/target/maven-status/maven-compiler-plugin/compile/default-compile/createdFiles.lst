@@ -1,0 +1,5 @@
+com\biascheck\biasdetector\model\ArticleRequest.class
+com\biascheck\biasdetector\model\GeminiResponse.class
+com\biascheck\biasdetector\BiasDetectorApplication.class
+com\biascheck\biasdetector\controller\AnalysisController.class
+com\biascheck\biasdetector\service\GeminiService.class

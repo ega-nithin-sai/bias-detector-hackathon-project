@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Bias Detector",
+  "version": "0.1.0",
+  "description": "Scan webpages or uploaded content for biased language and highlight it.",
+  "action": { "default_popup": "popup/popup.html" },
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background/service-worker.js", "type": "module" },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content.js"],
+      "css": ["content/content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    { "resources": ["content/content.css"], "matches": ["<all_urls>"] }
+  ]
+}
+
